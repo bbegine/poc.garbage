@@ -1,0 +1,13 @@
+@Poc.Garbage.ServerApi_HostAddress = https://pocgarbageserverapi20240212085220.azurewebsites.net/
+
+GET {{Poc.Garbage.ServerApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+GET {{Poc.Garbage.ServerApi_HostAddress}}/gc/
+Accept: application/json
+
+###
+GET {{Poc.Garbage.ServerApi_HostAddress}}/collect/
+Accept: application/json

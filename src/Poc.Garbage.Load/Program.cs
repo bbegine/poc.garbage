@@ -8,8 +8,7 @@ using var httpClient = new HttpClient();
 
 var wsScenario = Scenario.Create("workstation_gc_scenario", async context =>
 {
-    var request =
-        Http.CreateRequest("GET", $"{workstationApi}gc");
+    var request = Http.CreateRequest("GET", $"{workstationApi}gc");
     var response = await Http.Send(httpClient, request);
 
     return response;
@@ -23,14 +22,7 @@ var wsScenario = Scenario.Create("workstation_gc_scenario", async context =>
 
 var serverScenario = Scenario.Create("server_gc_scenario", async context =>
 {
-    var request =
-    Http.CreateRequest("GET", $"{serverApi}gc");
-        //.WithHeader("Accept", "text/html");
-    // .WithHeader("Accept", "application/json")
-    // .WithBody(new StringContent("{ id: 1 }", Encoding.UTF8, "application/json");
-    // .WithBody(new ByteArrayContent(new [] {1,2,3}))
-
-
+    var request = Http.CreateRequest("GET", $"{serverApi}gc");
     var response = await Http.Send(httpClient, request);
 
     return response;

@@ -7,7 +7,7 @@
   "parameters": {
     "resourceGroupName": {
       "type": "string",
-      "defaultValue": "rg-poc-garbage",
+      "defaultValue": "rg-gc-poc",
       "metadata": {
         "description": "Name of the resource group for the resource. It is recommended to put resources under same resource group for better tracking."
       }
@@ -21,7 +21,7 @@
     },
     "resourceName": {
       "type": "string",
-      "defaultValue": "PocGarbageWorkstationApi20240212094046",
+      "defaultValue": "PocGarbageServerApi",
       "metadata": {
         "description": "Name of the main resource to be created by this template."
       }

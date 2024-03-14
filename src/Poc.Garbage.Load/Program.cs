@@ -1,39 +1,61 @@
-﻿using NBomber.CSharp;
+﻿using System.Net.Http.Json;
+
+using NBomber.Contracts;
+using NBomber.CSharp;
 using NBomber.Http.CSharp;
 
-string workstationApi = @"https://pocgarbageworkstationapi20240212094046.azurewebsites.net/";
-string serverApi = @"https://pocgarbageserverapi20240212085220.azurewebsites.net/";
+// Make sure this is the same value as the ENV:poc_gc_app_prefix variable in the setVariables.ps1 script.
+var appPrefix = "app-poc-gc";
+
+// The interval represents a time when [rate] amount of requests will be send to ech app
+var interval = TimeSpan.FromSeconds(1);
+// The number of requests that will be send to the app's per interval
+var rate = 10;
+// The total amount of time the app's will be under load
+var during = TimeSpan.FromMinutes(10);
+// The string size that will be created in the api's
+var stringSizeInKB = 150;
+// The number of strings that will be created in the api
+var amountOfStrings = 200;
 
 using var httpClient = new HttpClient();
 
-var wsScenario = Scenario.Create("workstation_gc_scenario", async context =>
+List<ScenarioProps> scenarios = new();
+for (int i = 0; i < 6; i++)
 {
-    var request = Http.CreateRequest("GET", $"{workstationApi}gc");
-    var response = await Http.Send(httpClient, request);
+    var scName = $"poc_gc_{i + 1}_scenario";
+    var url = $"https://{appPrefix}-{i + 1}.azurewebsites.net/consumers";
 
-    return response;
-})
-.WithoutWarmUp()
-.WithLoadSimulations(
-    Simulation.Inject(rate: 3,
-                      interval: TimeSpan.FromSeconds(1),
-                      during: TimeSpan.FromMinutes(10))
-);
+    var wsScenario = Scenario.Create(scName, async context =>
+    {
+        var request = Http
+            .CreateRequest(
+                "POST",
+                url)
+            .WithHeader("Accept", "application/json")
+            .WithBody(
+                JsonContent.Create(
+                    new ConsumerDto(stringSizeInKB, amountOfStrings)
+                ));
+        var response = await Http.Send(httpClient, request);
 
-var serverScenario = Scenario.Create("server_gc_scenario", async context =>
-{
-    var request = Http.CreateRequest("GET", $"{serverApi}gc");
-    var response = await Http.Send(httpClient, request);
+        return response;
+    })
+    .WithoutWarmUp()
+    .WithLoadSimulations(
+        Simulation.Inject(rate: rate,
+                          interval: interval,
+                          during: during)
+    );
 
-    return response;
-})
-.WithoutWarmUp()
-.WithLoadSimulations(
-    Simulation.Inject(rate: 3,
-                      interval: TimeSpan.FromSeconds(1),
-                      during: TimeSpan.FromMinutes(10))
-);
+    scenarios.Add(wsScenario);
+}
 
 NBomberRunner
-    .RegisterScenarios(wsScenario, serverScenario)
+    .RegisterScenarios(scenarios.ToArray())
     .Run();
+
+Console.ReadKey();
+
+
+record ConsumerDto(int StringSizeInKB, int NumberOfString);

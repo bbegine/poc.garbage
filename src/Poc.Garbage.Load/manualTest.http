@@ -1,0 +1,15 @@
+
+@baseUrl = https://app-poc-gc-1.azurewebsites.net
+
+###
+POST {{baseUrl}}/consumers
+content-type: application/json
+
+
+{
+    "StringSizeInKB": 50, 
+    "NumberOfString": 100
+}
+
+###
+GET {{baseUrl}}/_health

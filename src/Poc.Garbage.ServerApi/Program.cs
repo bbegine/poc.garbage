@@ -18,48 +18,29 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
-
-app.MapGet("/gc", () =>
-{
-    var str = new string('R', 100000000);
-    return new
+app
+    .MapPost("/consumers", async (ConsumerDto request) =>
     {
-        FragmentedBytes = GC.GetGCMemoryInfo().FragmentedBytes,
-        GarbageCollection = GCSettings.IsServerGC ? "Server" : "Workstation"
-    };
-})
-   .WithName("GC")
-   .WithOpenApi();
-app.MapGet("/collect", () =>
+        var data = Enumerable
+            .Range(0, request.NumberOfString)
+            .Select(x => new string('D', request.StringSizeInKB * 1024)).ToArray();
+        await Task.Delay(TimeSpan.FromMilliseconds(50));
+        return Results.Ok(
+            new ConsumerResponse(
+                GC.GetGCMemoryInfo().FragmentedBytes,
+                GCSettings.IsServerGC ? "Server" : "Workstation"));
+    })
+    .WithName("Consumers")
+    .WithOpenApi();
+
+app.MapGet("/_health", () =>
 {
-    GC.Collect();
-    return new { Status = "Ok" };
+    return Results.Ok();
 })
-   .WithName("collect")
-   .WithOpenApi();
+.WithName("Health")
+.WithOpenApi();
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+record ConsumerDto(int StringSizeInKB, int NumberOfString);
+record ConsumerResponse(long FragmentedBytes, string GarbageCollection);

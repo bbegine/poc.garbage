@@ -1,6 +1,22 @@
 # Garbage Collector on Azure App Service Proof of concept
 
+The goal of this POC is to investigate different Garbage Collection settings on a web api and see how the app acts under load running on azure app services.
+
+The solution contains 3 main parts
+
+- ./src/Poc.Garbaga.ServerApi: The dotnet Web Api
+- ./src/Poc.Garbaga.Load: small console app for generating some load to the web api
+- ./scripts/**: powershell scripts to deploy the needed resources to azure
+
+> **WARNING**
+> Don't forget to cleanup your resources after usage.
+
 ## Preparing the environment
+
+### Requirements
+
+- [Azure Cli](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
+- [Dotnet 8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
 ### Login i to Azure
 

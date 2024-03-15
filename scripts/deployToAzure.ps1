@@ -1,6 +1,7 @@
 dotnet build
 dotnet publish .\src\Poc.Garbage.ServerApi\ -o publish --os linux
-zip -j publish.zip .\publish\*
+Compress-Archive -Path ./publish -DestinationPath ./publish.zip
+# zip -j publish.zip .\publish\*
 
 
 for ($i=1; $i -le 6; $i++) {

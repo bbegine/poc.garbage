@@ -12,7 +12,7 @@
 
     <ItemGroup>
         <!-- <RuntimeHostConfigurationOption Include="System.GC.HighMemoryPercent" Value="75" /> -->
-        <RuntimeHostConfigurationOption Include="System.GC.ConserveMemory" Value="5" />
+        <!-- <RuntimeHostConfigurationOption Include="System.GC.ConserveMemory" Value="5" /> -->
     </ItemGroup>
 
     <ItemGroup>

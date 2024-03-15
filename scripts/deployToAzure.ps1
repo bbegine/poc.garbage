@@ -1,7 +1,8 @@
-dotnet build
 dotnet publish .\src\Poc.Garbage.ServerApi\ -o publish --os linux
-Compress-Archive -Path ./publish -DestinationPath ./publish.zip
-# zip -j publish.zip .\publish\*
+if (Test-Path ./publish.zip) {
+    Remove-Item ./publish.zip
+} 
+Compress-Archive -Path ./publish/*.* -DestinationPath ./publish.zip
 
 
 for ($i=1; $i -le 6; $i++) {

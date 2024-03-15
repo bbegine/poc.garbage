@@ -12,4 +12,6 @@ content-type: application/json
 }
 
 ###
+GET {{baseUrl}}/info
+###
 GET {{baseUrl}}/_health

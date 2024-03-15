@@ -10,13 +10,13 @@ var appPrefix = "app-poc-gc";
 // The interval represents a time when [rate] amount of requests will be send to ech app
 var interval = TimeSpan.FromSeconds(1);
 // The number of requests that will be send to the app's per interval
-var rate = 10;
+var rate = 20;
 // The total amount of time the app's will be under load
 var during = TimeSpan.FromMinutes(10);
 // The string size that will be created in the api's
-var stringSizeInKB = 150;
+var stringSizeInKB = 70;
 // The number of strings that will be created in the api
-var amountOfStrings = 200;
+var amountOfStrings = 400;
 
 using var httpClient = new HttpClient();
 

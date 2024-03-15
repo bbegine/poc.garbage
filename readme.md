@@ -90,3 +90,9 @@ var amountOfStrings = 200;
 ```powershel
 dotnet run --project ./src/Poc.Garbage.Load
 ```
+
+## Links
+
+- [High Memory Percent](https://learn.microsoft.com/en-us/dotnet/core/runtime-config/garbage-collector#high-memory-percent)
+- [Workstation vs Server Garbage Collection](https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/workstation-server-gc)
+

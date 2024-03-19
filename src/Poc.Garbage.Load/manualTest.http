@@ -1,5 +1,5 @@
 
-@baseUrl = https://app-poc-gc-1.azurewebsites.net
+@baseUrl = https://app-poc-gc-6.azurewebsites.net
 
 ###
 POST {{baseUrl}}/consumers
@@ -14,4 +14,23 @@ content-type: application/json
 ###
 GET {{baseUrl}}/info
 ###
+GET {{baseUrl}}/collect
+###
 GET {{baseUrl}}/_health
+
+
+
+
+
+###
+GET https://app-poc-gc-1.azurewebsites.net/collect
+###
+GET https://app-poc-gc-2.azurewebsites.net/collect
+###
+GET https://app-poc-gc-3.azurewebsites.net/collect
+###
+GET https://app-poc-gc-4.azurewebsites.net/collect
+###
+GET https://app-poc-gc-5.azurewebsites.net/collect
+###
+GET https://app-poc-gc-6.azurewebsites.net/collect

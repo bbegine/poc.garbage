@@ -7,7 +7,7 @@
         <InvariantGlobalization>true</InvariantGlobalization>
         <ServerGarbageCollection>true</ServerGarbageCollection>
         <!--<ServerGarbageCollection>true</ServerGarbageCollection>-->
-        <!--<GarbageCollectionAdaptationMode>1</GarbageCollectionAdaptationMode>-->
+        <!-- <GarbageCollectionAdaptationMode>1</GarbageCollectionAdaptationMode> -->
     </PropertyGroup>
 
     <ItemGroup>

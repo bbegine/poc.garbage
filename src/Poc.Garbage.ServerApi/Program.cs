@@ -21,11 +21,14 @@ app.UseHttpsRedirection();
 app
     .MapPost("/consumers", async (ConsumerDto request) =>
     {
+        // Genereate "NumberOfString" string with "StringSizeInKB" characters
         var data = Enumerable
             .Range(0, request.NumberOfString)
-            .Select(x => new string('D', request.StringSizeInKB * 1024));
-        var t = data.Count();
+            .Select(x => new string('D', request.StringSizeInKB * 1024))
+            .ToList();
         await Task.Delay(TimeSpan.FromMilliseconds(50));
+
+        // Mimics external dependency call
         return Results.Ok(
             new ConsumerResponse(
                 GC.GetGCMemoryInfo().FragmentedBytes,
@@ -57,6 +60,14 @@ app.MapGet("/_health", () =>
     return Results.Ok();
 })
 .WithName("Health")
+.WithOpenApi();
+
+app.MapGet("/collect", () =>
+{
+    GC.Collect();
+    return Results.Ok();
+})
+.WithName("Collect")
 .WithOpenApi();
 
 app.Run();
